@@ -8,19 +8,33 @@ class Game {
         this.fps = FPS
 
         this.drawIntervalId= undefined
-        this.goku = new Goku (this.ctx , 60 , 60)
+        this.goku = new Goku (this.ctx , 0 , 160)
+        
     }
 
     star(){
         if (!this.drawIntervalId){
             this.drawIntervalId = setInterval(()=>{
+                this.clear()
+                this.move()
                 this.draw()
+            
             },this.fps) 
         }
         
     }
+    onKeyEvent(event){
+        this.goku.onKeyEvent(event)
+    }
     draw(){
         this.goku.draw();
+       
         
+    }
+    move (){
+        this.goku.move()
+    }
+    clear (){
+        this.ctx.clearRect (0 , 0 , this.canvas.width , this.canvas.height)
     }
 }
