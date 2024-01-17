@@ -13,7 +13,7 @@ const KEY_PUNCH = 83
 const SPEED_MOVE = 10
 
 const ACELERATION = 2
-const SPEED_JUMP = 10
+const SPEED_JUMP = 20
 
 
 

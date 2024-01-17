@@ -9,6 +9,7 @@ class Game {
 
         this.drawIntervalId= undefined
         this.goku = new Goku (this.ctx , 0 , 160)
+        this.enemy1= new Enemy1 (this.ctx ,100 , 160 )
         
     }
 
@@ -18,23 +19,36 @@ class Game {
                 this.clear()
                 this.move()
                 this.draw()
+                this.checkCollisions()
             
             },this.fps) 
         }
         
+    }
+    stop(){
+        clearInterval(this.drawIntervalId)
+        this.drawIntervalId = undefined
+        console.log( "collision")
     }
     onKeyEvent(event){
         this.goku.onKeyEvent(event)
     }
     draw(){
         this.goku.draw();
+        this.enemy1.draw();
        
         
     }
     move (){
         this.goku.move()
+        this.enemy1.move()
     }
     clear (){
         this.ctx.clearRect (0 , 0 , this.canvas.width , this.canvas.height)
+    }
+    checkCollisions(){
+        if ( this.enemy1.collision(this.goku)){
+            this.stop()
+        }
     }
 }
