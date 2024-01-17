@@ -8,8 +8,11 @@ class Game {
         this.fps = FPS
 
         this.drawIntervalId= undefined
+
+
         this.goku = new Goku (this.ctx , 0 , 160)
-        this.enemy1= new Enemy1 (this.ctx ,100 , 160 )
+        this.enemy1= new Enemy1 (this.ctx ,200, 160 )
+        this.enemies = []
         
     }
 

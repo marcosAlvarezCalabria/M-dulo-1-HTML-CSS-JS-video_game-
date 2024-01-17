@@ -3,6 +3,7 @@ class Enemy1 {
         this.ctx = ctx;
         this.y   = y;
         this.x   = x;
+        this.vX  = 1;
         this.w   = 30;
         this.h  = 30; 
     }
@@ -10,7 +11,9 @@ class Enemy1 {
 
 
 
-    move (){}
+    move (){
+        this.x -= this.vX
+    }
     collision(element){
        return   (this.x + this.w > element.x &&
                 this.x < element.x + element.w &&
