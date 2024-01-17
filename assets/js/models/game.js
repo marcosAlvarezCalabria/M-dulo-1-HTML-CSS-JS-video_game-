@@ -14,13 +14,24 @@ class Game {
     star(){
         if (!this.drawIntervalId){
             this.drawIntervalId = setInterval(()=>{
+                this.clear()
                 this.draw()
+                this.move()
             },this.fps) 
         }
         
     }
+    onKeyEvent(event){
+        this.goku.onKeyEvent(event)
+    }
     draw(){
         this.goku.draw();
         
+    }
+    move (){
+        this.goku.move()
+    }
+    clear (){
+        this.ctx.clearRect (0 , 0 , this.canvas.width , this.canvas.height)
     }
 }
