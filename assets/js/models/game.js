@@ -8,15 +8,17 @@ class Game {
         this.fps = FPS
 
         this.drawIntervalId= undefined
-        this.goku = new Goku (this.ctx , 60 , 60)
+        this.goku = new Goku (this.ctx , 0 , 160)
+        
     }
 
     star(){
         if (!this.drawIntervalId){
             this.drawIntervalId = setInterval(()=>{
                 this.clear()
-                this.draw()
                 this.move()
+                this.draw()
+            
             },this.fps) 
         }
         
@@ -26,6 +28,7 @@ class Game {
     }
     draw(){
         this.goku.draw();
+       
         
     }
     move (){

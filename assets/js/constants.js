@@ -5,11 +5,15 @@ const FPS = 1000/60
 
 //////////////////GOKU/////////////////////////////
 
-/////////////////MOVEMENTS////////////////////////
+/////////////////MOVEMENTS GOKU////////////////////////
 const KEY_RIGHT = 39
 const KEY_LEFT  = 37
 const KEY_JUMP  = 65
 const KEY_PUNCH = 83 
-const SPEED_MOVE = 2
+const SPEED_MOVE = 10
+
+const ACELERATION = 2
+const SPEED_JUMP = 10
+
 
 
