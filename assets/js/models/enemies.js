@@ -3,17 +3,24 @@ class Enemy1 {
         this.ctx = ctx;
         this.y   = y;
         this.x   = x;
-        this.vX  = 1;
-        this.w   = 30;
-        this.h  = 30; 
+        this.vX  = 0.5;
+        this.w   = 10;
+        this.h  = 10; 
+    
+        
     }
-
-
-
-
+    
     move (){
-        this.x -= this.vX
+        
+        this.x -= this.vX 
+       
     }
+    clear () {
+        this.ctx.clearRect(this.x , this.y , this.w, this.h)
+
+    }
+    
+    
     collision(element){
        return   (this.x + this.w > element.x &&
                 this.x < element.x + element.w &&
