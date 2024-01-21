@@ -13,7 +13,7 @@ class HealthBar {
     }
 
     updateHealthBar(){
-        this.w -= ENEMY_1_DAMAGE*50
+        this.w -= ENEMY_1_DAMAGE
         if (this.w <= 0){
             this.w = 0
         }

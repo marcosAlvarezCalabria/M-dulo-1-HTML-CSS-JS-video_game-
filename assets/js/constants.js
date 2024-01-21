@@ -1,7 +1,8 @@
 //CANVAS 
-const CANVAS_H = 500
-const CANVAS_W = 500
-const FPS = 1000/60
+const CANVAS_H = 700
+const CANVAS_W = 1100
+const FPS = 1100/60
+const SPEED_BACKGROUND = 0.5;
 
 
 //////////////////GOKU/////////////////////////////

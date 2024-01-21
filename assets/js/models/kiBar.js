@@ -3,7 +3,7 @@ class KiBar{
         this.ctx = ctx;
         this.x   = x;
         this.y   = y;
-        this.w   = 0;
+        this.w   = 10;
         this.initialW = this.w;
         this.h   = 20;
         
@@ -15,7 +15,7 @@ class KiBar{
     updateKiBar(){
         this.w += 5
        
-            console.log (`kibar.w es ${this.w} `)
+            
 
     }
 }

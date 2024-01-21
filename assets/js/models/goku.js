@@ -10,7 +10,7 @@ class Goku {
     this.y0 = y;
     this.yMax = 260;
     this.health = HEALTH_GOKU;
-    this.connectedBlow = 0;
+    
     this.hasCollided = false;
     this.kiBar = kiBar;
     this.score = score;
@@ -76,10 +76,10 @@ class Goku {
         this.kiBar.updateKiBar();
         this.score.incrementPoints();
 
-        this.connectedBlow ++;
+        
       }
     });
-    this.connectedBlow = 0;
+    
     this.w = prevW;
     //this.ctx.fillRect(this.x + this.w +5, this.y - Math.ceil(this.h/2), 20,20 )
   }
@@ -143,7 +143,7 @@ class Goku {
         this.ondasVital= this.ondasVital.filter((onda)=> onda.y < this.ctx.canvas.height)
         this.ondasVital= this.ondasVital.filter((onda)=> onda.y > 0)
         this.ondasVital= this.ondasVital.filter((onda)=> onda.x > 0)
-      
+     
                     
   }
 
