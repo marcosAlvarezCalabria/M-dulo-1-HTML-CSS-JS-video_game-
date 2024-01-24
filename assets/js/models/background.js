@@ -16,8 +16,8 @@ class Background {
         } 
     }
     move(){
-        this.x -= this.vX
-        if ( this.x < -this.w){//no entiendo muy bien por que pero es asi 
+        this.x -= this.vX 
+        if ( this.x < -this.w ){
             this.x = 0
 
         }

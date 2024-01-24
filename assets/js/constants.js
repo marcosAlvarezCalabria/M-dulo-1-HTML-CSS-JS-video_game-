@@ -1,6 +1,6 @@
 //CANVAS 
-const CANVAS_H = 700
-const CANVAS_W = 1100
+const CANVAS_H = 674
+const CANVAS_W = 1200
 const FPS = 1100/60
 const SPEED_BACKGROUND = 0.5;
 
@@ -27,8 +27,12 @@ const ENEMY1_SPAWN_TICK = 20
 const ENEMY_1_DAMAGE = 5
 //////////////////bars////////////////////////
 
-const WIDTH_BAR = 250
-const HEIGHT_BAR = 20
+const WIDTH_HEALTH_BAR = 200
+const HEIGHT_HEALTH_BAR = 50
+
+const WIDTH_KI_BAR = 200;
+const HEIGHT_KI_BAR = 100;
+
 
 
 

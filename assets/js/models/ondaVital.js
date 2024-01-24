@@ -12,8 +12,7 @@ class OndaVital{
     
     move() { 
         
-            this.x += this.vX
-      console.log(`vx onda ++`)
+        this.x += this.vX
         
     }
     draw() {

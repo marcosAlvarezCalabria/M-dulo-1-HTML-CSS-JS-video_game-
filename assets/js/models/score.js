@@ -11,10 +11,9 @@ class Score {
     draw(){
         this.ctx.fillText (this.points, this.x , this.y ,this.w ,this.h )
         
-        this.ctx.font = "25px Roboto"
+        this.ctx.font = "50px Roboto"
+        this.ctx.style = "yelow"
     }
-    incrementPoints() {
-        this.points++
-
-    }
+    
+  
 }

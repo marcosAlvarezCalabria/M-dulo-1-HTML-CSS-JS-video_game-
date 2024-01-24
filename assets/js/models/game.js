@@ -12,13 +12,12 @@ class Game {
 
 ////////////////////////new/////////////////////////////////////
     this.background = new Background(this.ctx)
-
-    
     this.healthBar = new HealthBar(this.ctx, 30, 10);
+    this.singLives = new SingLives(this.ctx, this.healthBar.w /4,this.healthBar.h);
+    this.score     = new Score(this.ctx, this.canvas.width-50, this.canvas.height - this.canvas.height+50);
+    this.kiBar     = new KiBar(this.ctx, this.canvas.width - (this.canvas.width - 50 ), this.canvas.height - 80 );
 
-    this.singLives = new SingLives(this.ctx, 5, 28);
-    this.score = new Score(this.ctx, this.canvas.width - 200, this.canvas.height - (this.canvas.height - 30));
-    this.kiBar = new KiBar(this.ctx, this.canvas.width - (this.canvas.width - 10 ), this.canvas.height - 80 );
+
     this.goku = new Goku(
       this.ctx,
       this.canvas.width - this.canvas.width ,//x
@@ -50,8 +49,8 @@ class Game {
         this.move();
         this.gameOver();
         this.draw();
-
         this.checkCollisions();
+        
       }, this.fps);
     }
   }
@@ -59,7 +58,7 @@ class Game {
     this.addEnemyTick++;
     if (this.addEnemyTick > 200) {
       this.addEnemyTick = 0;
-      this.enemies.push((this.enemy1 = new Enemy1(this.ctx, this.canvas.width, this.canvas.height -150)));
+      this.enemies.push((this.enemy1 = new Enemy1(this.ctx, this.canvas.width, this.canvas.height -160)));
     }
   }
   stop() {
@@ -67,8 +66,9 @@ class Game {
     this.drawIntervalId = undefined;
   }
   gameOver() {
-    if (this.singLives.quantity === 0) {
+    if (this.singLives.quantity === 0 ) {
       this.stop();
+      this.healthBar.sprite.src =  "/assets/img/spgoku/sprite-live-4.png"//para que no se quede la healthBar a medias al hacer gameOver
     }
   }
   onKeyEvent(event) {
@@ -97,24 +97,37 @@ class Game {
       //para borrar los enemigos si salen por la izquierda
       if (enemy.x === 0) {
         this.enemies.shift();
-        console.log(this.enemies);
+        
       }
       this.goku.clear();
     });
   }
+  updateLives(){
+    if (this.healthBar.quantityLive === 2) {
+      this.singLives.quantity --
+      
+    }
 
-  UpDateBarsAndLives() {
-    this.healthBar.updateHealthBar();
-    
   }
+  upDateHealthBar(){
+    this.healthBar.updateHealthBar();
+   
+  }
+  
+    
+  
 
   checkCollisions() {
     this.enemies.forEach((enemy, index) => {
       if (enemy.collision(this.goku)) {
         this.enemies.splice(index, 1);
-        this.goku.live();
-        this.UpDateBarsAndLives();
-        this.goku.decrementLives();
+        this.updateLives();
+
+        this.healthBar.quantityLive --
+        
+
+        this.upDateHealthBar();
+       
         
       }
        this.goku.ondasVital.filter((onda)=>{

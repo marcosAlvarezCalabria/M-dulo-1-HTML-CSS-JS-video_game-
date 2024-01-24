@@ -5,8 +5,8 @@ class Goku {
     this.vY = SPEED_JUMP;
     this.x = x;
     this.vX = SPEED_MOVE;
-    this.w = 20;
-    this.h = 20;
+    this.w =57 *2;
+    this.h = 43 *2;
     this.y0 = y;
     this.yMax = 260;
     this.health = HEALTH_GOKU;
@@ -19,8 +19,23 @@ class Goku {
     this.singLives = singLives;
     this.ondasVital = []
 
+    this.sprite = new Image();
+    this.sprite.src = "/assets/img/spgoku/goku-kid.png";
+    this.sprite.verticalFrames = 1;
+    this.sprite.verticalFrameIndex = 0;
+    this.sprite.horizontalFrames = 8;
+    this.sprite.horizontalFrameIndex = 0;
+    this.sprite.onload = () => {
+      this.sprite.isReady = true;
+      this.sprite.frameWidth = Math.ceil(this.sprite.width / this.sprite.horizontalFrames);
+      this.sprite.frameHeight = Math.ceil(this.sprite.height / this.sprite.verticalFrames);
+    }
+    this.animationTick = 0
+
+
     //MOVEMENTS GOKU
     this.movements = {
+      stop : false,
       right: false,
       left: false,
       jump: false,
@@ -32,12 +47,10 @@ class Goku {
   onKeyEvent(event, enemies) {
     const enabled = event.type === "keydown";
 
-    console.log(event.keyCode);
-
     switch (event.keyCode) {
       case KEY_RIGHT:
         this.movements.right = enabled;
-        console.log("RIGHT");
+        
         break;
 
       case KEY_LEFT:
@@ -56,7 +69,8 @@ class Goku {
         if (enabled) {
           this.punch(enemies);
           console.log("punch");
-          /////////prueba
+          
+          
         }
         break;
       case KEY_SPECIAL_HIT:
@@ -73,42 +87,30 @@ class Goku {
     enemies.forEach((enemy, index) => {
       if (enemy.collision(this)) {
         enemies.splice(index, 1);
-        this.kiBar.updateKiBar();
-        this.score.incrementPoints();
-
-        
+        this.kiBar.updateQuantityki();
+        this.score.points ++
+      
       }
     });
     
     this.w = prevW;
     //this.ctx.fillRect(this.x + this.w +5, this.y - Math.ceil(this.h/2), 20,20 )
   }
+  
 
   specialHit() {
 
-    if(this.kiBar.w === 5){
+    if(this.kiBar.quantityKi === 3){
    this.ondasVital.push( new OndaVital (this.ctx , this.x + this.w ,this.y + Math.ceil(this.h/2)))
-   console.log(this.ondasVital)
+   
 
   }
-  this.kiBar.w = 0
+  this.kiBar.quantityKi = 0
 }
 
-  live() {
-    //
-    if (!this.hasCollided) {
-      this.hasCollided = true;
-      this.health -= ENEMY_1_DAMAGE;
-    }
-    this.hasCollided = false;
-  }
-  decrementLives() {
-    if (this.healthBar.w <= 0) {
-      this.singLives.quantity--;
-      this.healthBar.w = this.healthBar.initialW;
-      console.log(LIVES_GOKU);
-    }
-  }
+
+
+  
 
   jump() {
     this.vY = -SPEED_JUMP;
@@ -146,9 +148,54 @@ class Goku {
      
                     
   }
+  animate() {
+    this.animationTick++;
+
+    if (this.movements.isJumping) {
+      this.sprite.horizontalFrameIndex = 0;
+    } else if (this.animationTick >= 10 && (this.movements.right || this.movements.left)) {
+      this.animationTick = 0;
+      this.sprite.horizontalFrameIndex++;
+
+      if (this.sprite.horizontalFrameIndex > this.sprite.horizontalFrames - 1) {
+        this.sprite.horizontalFrameIndex = 1;
+      }
+    } else if (!this.movements.right && !this.movements.left) {
+      this.sprite.horizontalFrameIndex = 0;
+    }
+    if (this.movements.punch){
+      console.log("this")
+      this.animationTick++;
+      this.sprite.src = "/assets/img/spgoku/punch1.png"
+      this.sprite.horizontalFrames = 2;
+      this.horizontalFrameIndex = 0;
+      this.sprite.verticalFrames = 1;
+      this.sprite.verticalFrameIndex = 0;
+      if (this.sprite.horizontalFrameIndex > this.sprite.horizontalFrames - 1) {
+        this.sprite.horizontalFrameIndex = 1;
+      }
+
+    }
+  }
+
 
   draw() {
-    this.ctx.fillRect(this.x, this.y, this.w, this.h);
+    
+    if (this.sprite.isReady) {
+      this.ctx.drawImage(
+        this.sprite,
+        this.sprite.horizontalFrameIndex * this.sprite.frameWidth,
+        this.sprite.verticalFrameIndex * this.sprite.frameHeight,
+        this.sprite.frameWidth,
+        this.sprite.frameHeight,
+        this.x,
+        this.y,
+        this.w,
+        this.h
+      )
+      this.animate();
+    }
     this.ondasVital.forEach((onda)=>onda.draw())
+
   }
 }
