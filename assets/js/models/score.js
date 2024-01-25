@@ -3,8 +3,8 @@ class Score {
         this.ctx = ctx;
         this.x   =  x;
         this.y   =  y;
-        this.w   = 20;
-        this.h   = 20;
+        this.w   = 400;
+        this.h   = 400;
 
         this.points = points;
     }
@@ -12,7 +12,7 @@ class Score {
         this.ctx.fillText (this.points, this.x , this.y ,this.w ,this.h )
         
         this.ctx.font = "50px Roboto"
-        this.ctx.style = "yelow"
+        
     }
     
   

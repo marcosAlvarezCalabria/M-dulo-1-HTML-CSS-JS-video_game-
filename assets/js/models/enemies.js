@@ -49,7 +49,7 @@ class Enemy1 {
 
      draw (){
         if (this.sprite.isReady){
-          console.log(this.sprite.horizontalFrameIndex)
+         
         this.ctx.drawImage(
             this.sprite,
             this.sprite.horizontalFramesIndex * this.sprite.frameWidth,

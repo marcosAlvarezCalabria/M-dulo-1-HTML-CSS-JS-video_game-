@@ -18,6 +18,7 @@ class Goku {
     this.lives = LIVES_GOKU;
     this.singLives = singLives;
     this.ondasVital = []
+    this.initialSprite = {}
 
     this.sprite = new Image();
     this.sprite.src = "/assets/img/spgoku/goku-kid.png";
@@ -35,6 +36,7 @@ class Goku {
 
     //MOVEMENTS GOKU
     this.movements = {
+      walk : false,
       stop : false,
       right: false,
       left: false,
@@ -67,11 +69,14 @@ class Goku {
 
       case KEY_PUNCH:
         if (enabled) {
+          this.movements.punch = true
           this.punch(enemies);
+          this.animatePunch();
           console.log("punch");
           
-          
-        }
+        }else{
+          this.initialState()
+       }
         break;
       case KEY_SPECIAL_HIT:
         if (enabled) {
@@ -121,6 +126,17 @@ class Goku {
   move() {
     this.ondasVital.forEach((onda)=>onda.move())
 
+    if (!this.movements.right &&
+        !this.movements.left &&
+        !this.movements.jump  ){
+          this.movements.walk = true
+          this.x += (this.vX - 9);
+        }//else {
+          //this.movements.walk = false
+       // }
+
+    
+
     if (this.movements.right) {
       this.x += this.vX;
     } else if (this.movements.left) {
@@ -145,15 +161,14 @@ class Goku {
         this.ondasVital= this.ondasVital.filter((onda)=> onda.y < this.ctx.canvas.height)
         this.ondasVital= this.ondasVital.filter((onda)=> onda.y > 0)
         this.ondasVital= this.ondasVital.filter((onda)=> onda.x > 0)
+
      
                     
   }
   animate() {
     this.animationTick++;
-
-    if (this.movements.isJumping) {
-      this.sprite.horizontalFrameIndex = 0;
-    } else if (this.animationTick >= 10 && (this.movements.right || this.movements.left)) {
+ 
+     if (this.animationTick >= 20 && (this.movements.right || this.movements.left||this.movements.walk)) {
       this.animationTick = 0;
       this.sprite.horizontalFrameIndex++;
 
@@ -161,20 +176,40 @@ class Goku {
         this.sprite.horizontalFrameIndex = 1;
       }
     } else if (!this.movements.right && !this.movements.left) {
-      this.sprite.horizontalFrameIndex = 0;
+      //this.sprite.horizontalFrameIndex = 0;
     }
+    
+  }
+  animatePunch(){
     if (this.movements.punch){
-      console.log("this")
-      this.animationTick++;
+      
+      console.log (this.movements.punch)
+
       this.sprite.src = "/assets/img/spgoku/punch1.png"
-      this.sprite.horizontalFrames = 2;
-      this.horizontalFrameIndex = 0;
       this.sprite.verticalFrames = 1;
       this.sprite.verticalFrameIndex = 0;
-      if (this.sprite.horizontalFrameIndex > this.sprite.horizontalFrames - 1) {
-        this.sprite.horizontalFrameIndex = 1;
-      }
+      this.sprite.horizontalFrames = 2;
+      this.sprite.horizontalFrameIndex = 0;
+      this.sprite.horizontalFrameIndex++
+      //this.x += this.vX
+      
+      
+      
 
+    }
+    this.movements.punch = false
+    
+  }
+ initialState(){
+    this.sprite.src = "/assets/img/spgoku/goku-kid.png";
+    this.sprite.verticalFrames = 1;
+    this.sprite.verticalFrameIndex = 0;
+    this.sprite.horizontalFrames = 8
+    this.sprite.horizontalFrameIndex = 0;
+    this.sprite.onload = () => {
+      this.sprite.isReady = true;
+      this.sprite.frameWidth = Math.ceil(this.sprite.width / this.sprite.horizontalFrames);
+      this.sprite.frameHeight = Math.ceil(this.sprite.height / this.sprite.verticalFrames);
     }
   }
 

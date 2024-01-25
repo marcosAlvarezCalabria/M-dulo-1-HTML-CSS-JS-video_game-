@@ -1,3 +1,19 @@
+#menu{
+    margin: 30px;
+}
+
+
+.btn-menu-initial:hover{
+    cursor: pointer;
+    width: 110px;
+    height: 50px;
+
+}
+
+.chose-one{
+    width: 110px;
+    height: 50px;
+}
 .hiden {
     display: none !important;
 }
@@ -16,6 +32,7 @@ button{
     max-height: 674;
     width: 100%;
     height: 100%;
+    
     
 }
 
