@@ -16,8 +16,8 @@ class Game {
     this.singLives = new SingLives(this.ctx, Math.ceil (this.healthBar.w /5+5),this.healthBar.h);
     this.score = new Score(this.ctx, this.canvas.width-50, this.canvas.height - this.canvas.height+50);
     this.kiBar = new KiBar(this.ctx, this.canvas.width - (this.canvas.width - 45 ), this.canvas.height - 80 );
-    this.gameOverSing = new GameOverSing (this.ctx ,Math.ceil(this.canvas.width/2), Math.ceil(this.canvas.height/2) )
-    this.cloud = new Cloud(this.ctx , 30,30) 
+    this.gameOverSing = new GameOverSing (this.ctx ,Math.ceil(this.canvas.width/2), Math.ceil(this.canvas.height/2))
+    //this.cloud = new Cloud(this.ctx , 300,300) 
 
 
     this.goku = new Goku(
@@ -28,15 +28,18 @@ class Game {
       this.score,
       this.healthBar,
       this.singLives,
-      this.ondasVital
+      
+      
     );
 
-    this.ondasVital=[]
+   
+    
 
     ////////enemies/////////////////
     this.valueEnemies = 200
-
+     
     this.addEnemyTick = 0;
+    
     this.enemies = [];
 ////////////////mode /////////////////////////////
     this.mode = {
@@ -44,8 +47,9 @@ class Game {
       normal:false,
       hard : false
     }
-
-    
+/////////////cloud//////////////////////////
+     
+     
   }
   choseMode(){
     if ( this.mode.easy){
@@ -56,6 +60,7 @@ class Game {
       this.valueEnemies = 100
     }
   }
+  
 
   start() {
     if (!this.drawIntervalId) {
@@ -103,7 +108,7 @@ class Game {
     this.kiBar.draw();
     this.score.draw();
     this.singLives.draw();
-    this.cloud.draw();
+    
 
     if (this.singLives.quantity === 2){
       this.gameOverSing.draw();

@@ -56,4 +56,5 @@ class KiBar{
         this.quantityKi ++
         console.log(`LA CANTIDAD DE KI +1 ES ${this.quantityKi}`)
     }
+    
 }

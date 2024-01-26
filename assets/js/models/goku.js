@@ -1,5 +1,5 @@
 class Goku {
-  constructor(ctx, x, y, kiBar, score, healthBar, singLives,ondaVital) {
+  constructor(ctx, x, y, kiBar, score, healthBar, singLives,cloud) {
     this.ctx = ctx;
     this.y = y;
     this.vY = SPEED_JUMP;
@@ -11,6 +11,7 @@ class Goku {
     this.yMax = 260;
     this.health = HEALTH_GOKU;
     
+   
     this.hasCollided = false;
     this.kiBar = kiBar;
     this.score = score;
@@ -18,7 +19,9 @@ class Goku {
     this.lives = LIVES_GOKU;
     this.singLives = singLives;
     this.ondasVital = []
+    this.clouds = []
     this.initialSprite = {}
+
 
     this.sprite = new Image();
     this.sprite.src = "/assets/img/spgoku/goku-kid.png";
@@ -36,6 +39,7 @@ class Goku {
 
     //MOVEMENTS GOKU
     this.movements = {
+      callCloud:false,
       walk : false,
       stop : false,
       right: false,
@@ -46,7 +50,7 @@ class Goku {
       
     };
   }
-  onKeyEvent(event, enemies) {
+  onKeyEvent(event, enemies ,cloud) {
     const enabled = event.type === "keydown";
 
     switch (event.keyCode) {
@@ -83,6 +87,19 @@ class Goku {
             this.specialHit()
             console.log("specialHit")
         }  
+        break;
+      case KEY_CALL_CLOUD :
+        if (enabled){
+          this.callingCloud()
+          console.log("key call-CLOUD")
+          
+          
+        }
+        
+         
+          
+        
+         
     }
   }
   ///////////////PUNCH////////////////////////////
@@ -113,18 +130,26 @@ class Goku {
   this.kiBar.quantityKi = 0
 }
 
+callingCloud(){
 
+ 
+  
+ this.clouds.push ( new Cloud (this.ctx , CANVAS_W ,CANVAS_H- 100))
+  
+
+}
 
   
 
   jump() {
     this.vY = -SPEED_JUMP;
-    this.vY += ACELERATION;
+    
   }
  
 
   move() {
-    this.ondasVital.forEach((onda)=>onda.move())
+    this.ondasVital.forEach((onda) => onda.move())
+    this.clouds.forEach((cloud) => cloud.move())
 
     if (!this.movements.right &&
         !this.movements.left &&
@@ -146,8 +171,8 @@ class Goku {
 
     this.y += this.vY;
 
-    if (this.y < this.y0) {
-    } else {
+    if (this.y > this.y0) {
+    
       this.y = this.y0;
       this.movements.jump = false;
     }
@@ -168,15 +193,13 @@ class Goku {
   animate() {
     this.animationTick++;
  
-     if (this.animationTick >= 20 && (this.movements.right || this.movements.left||this.movements.walk)) {
+     if (this.animationTick >= 7 && (this.movements.right || this.movements.left||this.movements.walk)) {
       this.animationTick = 0;
       this.sprite.horizontalFrameIndex++;
 
       if (this.sprite.horizontalFrameIndex > this.sprite.horizontalFrames - 1) {
         this.sprite.horizontalFrameIndex = 1;
       }
-    } else if (!this.movements.right && !this.movements.left) {
-      //this.sprite.horizontalFrameIndex = 0;
     }
     
   }
@@ -231,6 +254,7 @@ class Goku {
       this.animate();
     }
     this.ondasVital.forEach((onda)=>onda.draw())
+    this.clouds.forEach((cloud)=>cloud.draw())
 
   }
 }

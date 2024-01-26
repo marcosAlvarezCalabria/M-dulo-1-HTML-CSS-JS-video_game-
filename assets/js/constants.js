@@ -17,10 +17,12 @@ const KEY_UP    = 38
 const KEY_JUMP  = 65 // LETRA A
 const KEY_PUNCH = 83 // LETRA S
 const KEY_SPECIAL_HIT = 68 //LETRA D
+const KEY_CALL_CLOUD = 65
 const SPEED_MOVE= 10
 
+
 const ACELERATION = 2
-const SPEED_JUMP = 20
+const SPEED_JUMP = 10
 //////////////////ENEMIES///////////////////////
 
 const ENEMY1_SPAWN_TICK = 20

@@ -4,8 +4,8 @@ class Cloud {
         this.x = x,
         this.vX = 2,
         this.y = y,
-        this.w = 20,
-        this.h = 20;
+        this.w = 50,
+        this.h = 50;
 
         this.sprite = new Image ()
         this.sprite.src = `/assets/img/spgoku/cloudAlone.png`;
@@ -27,7 +27,7 @@ class Cloud {
         if (this.sprite.isReady){
             this.ctx.drawImage (
                 this.sprite,
-                this.sprite.horizontalFrameIndex + this.sprite.framewidth,
+                this.sprite.horizontalFrameIndex * this.sprite.frameWidth,
                 this.sprite.verticalFrameIndex * this.sprite.frameHeight,
                 this.sprite.frameWidth,
                 this.sprite.frameHeight,
@@ -41,6 +41,14 @@ class Cloud {
 
 
         }
+    }
+    move (){
+         this.x -= this.vX
+         console.log("MOVE DE LA NUBE")
+    }
+    animate (){
+       
+
     }
    
 }
