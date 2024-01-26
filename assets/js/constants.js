@@ -14,11 +14,12 @@ const SPEED_ONDA_VITAL = 1;
 const KEY_RIGHT = 39
 const KEY_LEFT  = 37
 const KEY_UP    = 38
-const KEY_JUMP  = 65 // LETRA A
+const KEY_DOWN  = 40
+const KEY_JUMP  = 32 // LETRA espacio
 const KEY_PUNCH = 83 // LETRA S
 const KEY_SPECIAL_HIT = 68 //LETRA D
 const KEY_CALL_CLOUD = 65
-const SPEED_MOVE= 10
+const SPEED_MOVE_GOKU= 10
 
 
 const ACELERATION = 2

@@ -4,7 +4,7 @@ class Goku {
     this.y = y;
     this.vY = SPEED_JUMP;
     this.x = x;
-    this.vX = SPEED_MOVE;
+    this.vX = SPEED_MOVE_GOKU;
     this.w =57 *2;
     this.h = 43 *2;
     this.y0 = y;
@@ -49,34 +49,60 @@ class Goku {
       punch: false,
       
     };
+    this.isRidingCloud ={
+      isFliying :false,
+      up : false,
+      down : false,
+      left : false,
+      right : false
+    }
   }
-  onKeyEvent(event, enemies ,cloud) {
+  onKeyEvent(event, enemies) {
     const enabled = event.type === "keydown";
+    console.log(`${event.keyCode}`)
 
     switch (event.keyCode) {
+
       case KEY_RIGHT:
         this.movements.right = enabled;
+        this.isRidingCloud.right = true
         
         break;
 
       case KEY_LEFT:
         this.movements.left = enabled;
+        this.isRidingCloud.left = true
         break;
 
-      case KEY_UP:
+      case KEY_JUMP:
         if (enabled) {
           this.jump();
         } else {
           this.vY = SPEED_JUMP;
+          this.toRideCloud();
         }
         break;
+        case KEY_DOWN:{
+          this.isRidingCloud.down = true
+          console.log("ABAJO")
+          this.moveFliying();
+        }
+        break;
+        case KEY_UP:{
+          this.isRidingCloud.up = true
+          console.log("ARRIBA")
+          this.moveFliying()
+
+        }
+        break;
+
 
       case KEY_PUNCH:
         if (enabled) {
           this.movements.punch = true
           this.punch(enemies);
           this.animatePunch();
-          console.log("punch");
+         
           
         }else{
           this.initialState()
@@ -85,13 +111,14 @@ class Goku {
       case KEY_SPECIAL_HIT:
         if (enabled) {
             this.specialHit()
-            console.log("specialHit")
+            
         }  
         break;
       case KEY_CALL_CLOUD :
         if (enabled){
           this.callingCloud()
-          console.log("key call-CLOUD")
+          
+          
           
           
         }
@@ -118,7 +145,7 @@ class Goku {
     this.w = prevW;
     //this.ctx.fillRect(this.x + this.w +5, this.y - Math.ceil(this.h/2), 20,20 )
   }
-  
+  ///////////////////SPCECIALHIT/////////////////////////////////
 
   specialHit() {
 
@@ -129,15 +156,55 @@ class Goku {
   }
   this.kiBar.quantityKi = 0
 }
-
+///////////////////////////////CLOUD/////////////////////////////////////
 callingCloud(){
-
- 
   
- this.clouds.push ( new Cloud (this.ctx , CANVAS_W ,CANVAS_H- 100))
-  
+ this.clouds.push ( new Cloud (this.ctx , CANVAS_W ,CANVAS_H- 300))  
 
 }
+toRideCloud(){
+  
+this.clouds.forEach((cloud)=>{
+  if (this.x > cloud.x && this.y < cloud.y){
+    this.y0 = cloud.y -50
+    console.log("encima de la nube")
+    this.isRidingCloud.isFliying = true 
+   
+  }
+})
+
+}
+
+moveFliying(){
+  if (this.isRidingCloud.isFliying) {
+    console.log(`mi y0 es ${this.y0} y mi x es ${this.x}`)
+    console.log(`ISRINDG.RIGHT ES  ${this.isRidingCloud.right}`)
+
+    if(this.isRidingCloud.right){
+      this.x += this.vX
+      console.log(`A LA DCHA ES ${this.isRidingCloud.right}`)
+    }
+    if (this.isRidingCloud.left){
+      this.x -= this.vX
+      console.log(`A LA IZQUIERDA ES ${this.isRidingCloud.left}`)
+      console.log("volando izq")
+    }
+    if (this.isRidingCloud.up){
+      this.y -= this.vY
+      console.log("volando arriba")
+    }
+     if ( this.isRidingCloud.down){
+      this.y += this.vY
+      console.log("volando abajo")
+    }
+
+    
+
+    
+  }
+
+}
+
 
   
 
@@ -149,7 +216,10 @@ callingCloud(){
 
   move() {
     this.ondasVital.forEach((onda) => onda.move())
-    this.clouds.forEach((cloud) => cloud.move())
+    this.clouds.forEach((cloud)=>cloud.move(this.x,this.y,this.movements.right,this.movements.left,this.movements.walk,this.vX,this.y0))
+   
+   
+    
 
     if (!this.movements.right &&
         !this.movements.left &&
@@ -235,6 +305,14 @@ callingCloud(){
       this.sprite.frameHeight = Math.ceil(this.sprite.height / this.sprite.verticalFrames);
     }
   }
+  collision(element){
+    return   (this.x + this.w > element.x &&
+             this.x < element.x + element.w &&
+             this.y + this.h > element.y &&
+             this.y < element.y + element.h
+             )
+ 
+ }
 
 
   draw() {

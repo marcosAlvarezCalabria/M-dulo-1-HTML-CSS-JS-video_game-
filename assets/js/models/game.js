@@ -179,10 +179,7 @@ class Game {
     });
     
   }
-  ////////////////////////////////////////////////////////////////
-  /*mousePosition(){
-    this.canvas.getBoundingClientRect()
-    
-  }*/
+ 
+ 
   
 }

@@ -19,6 +19,10 @@ class Cloud {
             this.sprite.frameHeight = Math.ceil(this.sprite.height / this.sprite.verticalFrames);
   
           }
+        this.movements={
+            right : false,
+            left  : false,
+        }  
 
 
     }
@@ -35,20 +39,43 @@ class Cloud {
                 this.y,
                 this.w,
                 this.h,
-                console.log("se pinta")
+               
             )
             
 
 
         }
     }
-    move (){
-         this.x -= this.vX
-         console.log("MOVE DE LA NUBE")
-    }
-    animate (){
-       
+    move (gokuPositionX,gokuPositionY,movemenstsGokuRight,movemenstsGokuLeft,movementsGokuWalk,speedGoguX,gokuY0){
+            this.x -= speedGoguX   
+        
 
+       if (gokuPositionX > this.x){
+        
+        this.x = gokuPositionX 
+       }
+       if (gokuPositionY === this.y){
+        this.y = gokuPositionY
+          this.y = gokuPositionY
+       }
+      
+       /*if (gokuPositionX!==this.x){
+        this.x = gokuPositionX
+       }
+         */
     }
+    collision(element){
+        console.log(`cloud.coliision llamada desde to ride `)
+        return   (this.x + this.w > element.x &&
+                 this.x < element.x + element.w &&
+                 this.y + this.h > element.y &&
+                 this.y < element.y + element.h
+                 )
+     
+     }
+
+    
+    
+    
    
 }
