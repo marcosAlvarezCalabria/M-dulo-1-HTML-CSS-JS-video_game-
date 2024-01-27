@@ -64,16 +64,18 @@ window.addEventListener("load",()=>{
         hardButton.classList.add (`chose-one`)
 
     })
+
+
+    /*easyButton.addEventListener("mouseover", () => {
+        game.mode.easy = true
+        game.choseMode();
+        hardButton.classList.remove(`chose-one`)
+        normalButton.classList.remove(`chose-one`)
+        easyButton.classList.add (`chose-one`)
+        console.log("mouseover")
+    })**/
     ////////////////////////////////CANVAS //////////////////////
     
-   /* const canvasMousePosition = getElementById (`main-canvas`)
-
-    canvasMousePosition.addEventListener(`mousemove`, (event) =>{
-
-        let x = event.clientX - canvas.getBoundingClientRect().left;
-        let y = event.clientY - canvas.getBoundingClientRect().top;
-        console.log("Coordenadas del ratón: (" + x + ", " + y + ")");
-    
-    })*/
+ 
    
 })

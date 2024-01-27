@@ -1,5 +1,5 @@
 class Enemy1 {
-     constructor (ctx , x , y){
+     constructor (ctx , x , y,assets){
         this.ctx = ctx;
         this.y   = y;
         this.x   = x;
@@ -8,7 +8,7 @@ class Enemy1 {
         this.h  = 100; 
 
        this.sprite = new Image ();
-       this.sprite.src = "/assets/img/spgoku/Pig-Pirate-gun.png";
+       this.sprite.src = assets.src;
        this.sprite.verticalFrames= 1;
        this.sprite.verticalFramesIndex = 0;
        this.sprite.horizontalFrames = 6;

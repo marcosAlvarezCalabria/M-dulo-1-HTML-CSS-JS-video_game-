@@ -7,6 +7,7 @@ class Goku {
     this.vX = SPEED_MOVE_GOKU;
     this.w =57 *2;
     this.h = 43 *2;
+    this.initialY0 = GOKU_FLOOR
     this.y0 = y;
     this.yMax = 260;
     this.health = HEALTH_GOKU;
@@ -54,24 +55,28 @@ class Goku {
       up : false,
       down : false,
       left : false,
-      right : false
+      right : false,
+      leave : false,
+
     }
   }
   onKeyEvent(event, enemies) {
     const enabled = event.type === "keydown";
-    console.log(`${event.keyCode}`)
+   // console.log(`${event.keyCode}`)
 
     switch (event.keyCode) {
 
       case KEY_RIGHT:
         this.movements.right = enabled;
         this.isRidingCloud.right = true
+        //this.moveFliying();
         
         break;
 
       case KEY_LEFT:
         this.movements.left = enabled;
         this.isRidingCloud.left = true
+        //this.moveFliying();
         break;
 
       case KEY_JUMP:
@@ -82,18 +87,21 @@ class Goku {
           this.toRideCloud();
         }
         break;
-        case KEY_DOWN:{
+        case KEY_DOWN:
+          this.movements.down = enabled
           this.isRidingCloud.down = true
-          console.log("ABAJO")
-          this.moveFliying();
-        }
+          
+          //this.moveFliying();
+        
         break;
-        case KEY_UP:{
+        case KEY_UP:
+          this.movements.up = enabled
           this.isRidingCloud.up = true
-          console.log("ARRIBA")
-          this.moveFliying()
+         
+          //this.moveFliying()
+          
 
-        }
+        
         break;
 
 
@@ -102,27 +110,23 @@ class Goku {
           this.movements.punch = true
           this.punch(enemies);
           this.animatePunch();
-         
-          
-        }else{
+        } else {
           this.initialState()
        }
         break;
       case KEY_SPECIAL_HIT:
         if (enabled) {
-            this.specialHit()
-            
+          this.specialHit()
         }  
         break;
       case KEY_CALL_CLOUD :
-        if (enabled){
+        if (enabled && !this.isRidingCloud.isFliying) {
           this.callingCloud()
+        } else if ( enabled && this.isRidingCloud.isFliying) {
           
-          
-          
-          
+          this.getOffTheCloud()
         }
-        
+        break
          
           
         
@@ -138,7 +142,6 @@ class Goku {
         enemies.splice(index, 1);
         this.kiBar.updateQuantityki();
         this.score.points ++
-      
       }
     });
     
@@ -158,52 +161,34 @@ class Goku {
 }
 ///////////////////////////////CLOUD/////////////////////////////////////
 callingCloud(){
+  if (this.clouds.length < 1){
+    this.clouds.push(new Cloud(this.ctx , CANVAS_W ,CANVAS_H- 300))  
+    this.isRidingCloud.leave = false
+  }
   
- this.clouds.push ( new Cloud (this.ctx , CANVAS_W ,CANVAS_H- 300))  
-
 }
+
 toRideCloud(){
+  this.clouds.forEach((cloud)=>{
+    if (this.x > cloud.x && this.y < cloud.y){
+      this.y0 = cloud.y + 130
+      console.log("encima de la nube")
+      this.isRidingCloud.isFliying = true 
+    
+    }
+  })
+
+}
+
+
+getOffTheCloud(){
+ 
+  this.isRidingCloud.isFliying=false
+  this.isRidingCloud.leave = true
+ 
   
-this.clouds.forEach((cloud)=>{
-  if (this.x > cloud.x && this.y < cloud.y){
-    this.y0 = cloud.y -50
-    console.log("encima de la nube")
-    this.isRidingCloud.isFliying = true 
-   
-  }
-})
-
 }
-
-moveFliying(){
-  if (this.isRidingCloud.isFliying) {
-    console.log(`mi y0 es ${this.y0} y mi x es ${this.x}`)
-    console.log(`ISRINDG.RIGHT ES  ${this.isRidingCloud.right}`)
-
-    if(this.isRidingCloud.right){
-      this.x += this.vX
-      console.log(`A LA DCHA ES ${this.isRidingCloud.right}`)
-    }
-    if (this.isRidingCloud.left){
-      this.x -= this.vX
-      console.log(`A LA IZQUIERDA ES ${this.isRidingCloud.left}`)
-      console.log("volando izq")
-    }
-    if (this.isRidingCloud.up){
-      this.y -= this.vY
-      console.log("volando arriba")
-    }
-     if ( this.isRidingCloud.down){
-      this.y += this.vY
-      console.log("volando abajo")
-    }
-
-    
-
-    
-  }
-
-}
+////////////////////////////////jump//////////////////////////////////////
 
 
   
@@ -215,8 +200,9 @@ moveFliying(){
  
 
   move() {
+   
     this.ondasVital.forEach((onda) => onda.move())
-    this.clouds.forEach((cloud)=>cloud.move(this.x,this.y,this.movements.right,this.movements.left,this.movements.walk,this.vX,this.y0))
+    this.clouds.forEach((cloud) => cloud.move(this.x,this.y,this.vX,this.isRidingCloud.isFliying,this.isRidingCloud.leave))
    
    
     
@@ -226,9 +212,7 @@ moveFliying(){
         !this.movements.jump  ){
           this.movements.walk = true
           this.x += (this.vX - 9);
-        }//else {
-          //this.movements.walk = false
-       // }
+        }
 
     
 
@@ -237,15 +221,26 @@ moveFliying(){
     } else if (this.movements.left) {
       this.x -= this.vX;
     }
+////////////////////////////////
+    if (this.movements.up){
+      this.y -= this.vY
+    }
+    if (this.movements.down){
+      this.y += this.vY
+    }
     //////// MOVE JUMP/////////
 
-    this.y += this.vY;
+    if (!this.isRidingCloud.isFliying) {
+      this.y += this.vY;
+    }
+
 
     if (this.y > this.y0) {
     
       this.y = this.y0;
       this.movements.jump = false;
     }
+   
   }
 
   clear() {
@@ -257,8 +252,13 @@ moveFliying(){
         this.ondasVital= this.ondasVital.filter((onda)=> onda.y > 0)
         this.ondasVital= this.ondasVital.filter((onda)=> onda.x > 0)
 
+        this.clouds = this.clouds.filter((cloud) => cloud.x < this.ctx.canvas.width)
+        this.clouds = this.clouds.filter((cloud) => cloud.y < this.ctx.canvas.width)
+        this.clouds = this.clouds.filter((cloud) => cloud.y > 0);
+        this.clouds = this.clouds.filter((cloud) => cloud.x > 0); 
+
      
-                    
+                    console.log ( this.clouds)
   }
   animate() {
     this.animationTick++;

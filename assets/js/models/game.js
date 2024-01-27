@@ -81,7 +81,9 @@ class Game {
     this.addEnemyTick++;
     if (this.addEnemyTick > value) {
       this.addEnemyTick = 5;
-      this.enemies.push((this.enemy1 = new Enemy1(this.ctx, this.canvas.width, this.canvas.height -160)));
+
+      //this.enemies.push((this.enemy1 = new Enemy1(this.ctx, this.canvas.width, this.canvas.height -160, "/assets/img/spgoku/Pig-Pirate-gun.png")));
+      this.enemies.push(( new Enemy1 (this.ctx, this.canvas.width, this.canvas.height -160,ENEMY_PIG)));
     }
   }
   stop() {

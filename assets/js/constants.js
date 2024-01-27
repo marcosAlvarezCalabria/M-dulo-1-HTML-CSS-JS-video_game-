@@ -10,6 +10,7 @@ const HEALTH_GOKU = 250
 const KI_GOKU     =  0
 const LIVES_GOKU       =  3
 const SPEED_ONDA_VITAL = 1;
+const GOKU_FLOOR = CANVAS_H -150
 /////////////////MOVEMENTS GOKU////////////////////////
 const KEY_RIGHT = 39
 const KEY_LEFT  = 37
@@ -35,6 +36,17 @@ const HEIGHT_HEALTH_BAR = 50
 
 const WIDTH_KI_BAR = 200;
 const HEIGHT_KI_BAR = 100;
+
+const ENEMY_PIG = {
+
+    src: "/assets/img/spgoku/Pig-Pirate-gun.png",
+    vertialFrames: 1,
+    verticalFramesIndex : 0,
+    horizontalFrames : 6,
+    horizontalFramesIndex : 5,
+
+
+}
 
 
 
