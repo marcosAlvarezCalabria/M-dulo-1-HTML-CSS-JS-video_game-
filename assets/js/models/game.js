@@ -17,6 +17,7 @@ class Game {
     this.score = new Score(this.ctx, this.canvas.width-50, this.canvas.height - this.canvas.height+50);
     this.kiBar = new KiBar(this.ctx, this.canvas.width - (this.canvas.width - 45 ), this.canvas.height - 80 );
     this.gameOverSing = new GameOverSing (this.ctx ,Math.ceil(this.canvas.width/2), Math.ceil(this.canvas.height/2))
+    this.dragonBall = new DragonBall (this.ctx, 60,50)
     this.gameOverSwitch= false
 
 
@@ -125,6 +126,7 @@ class Game {
     this.kiBar.draw();
     this.score.draw();
     this.singLives.draw();
+    this.dragonBall.draw();
     
 
     if (this.singLives.quantity === 2){
