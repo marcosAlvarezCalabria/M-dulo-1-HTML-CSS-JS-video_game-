@@ -1,7 +1,22 @@
+body {
+    
+}
 #menu{
     margin: 30px;
 }
+#btn-continue {
+    right:50%;
+    top: 100px;
+    
+    
+}
+#img-continue{
+    width: 100px;
+    height: 50px;
 
+    
+
+}
 
 .btn-menu-initial:hover{
     cursor: pointer;
@@ -13,7 +28,7 @@
     width: 110px;
     height: 50px;
 }
-.hiden {
+.hidden {
     display: none !important;
 }
 button{
@@ -27,20 +42,28 @@ button{
     background-image: url("/assets/img/background/bg2.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    max-width:1200;
+    max-width:1000;
     max-height: 674;
     width: 100%;
     height: 100%;
     
     
 }
+.panel-game {
+    max-width:1200;
+    max-height: 674;
+    width: 100%;
+    height: 100%;
+
+}
+
 
 
 
 canvas {
     border: solid 1px black;
-    max-width:1200;
+    
+    max-width:1000;
     max-height: 674;
-    width: 100%;
-    height: 100%;
+    
 }

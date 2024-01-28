@@ -14,11 +14,19 @@ window.addEventListener("load",()=>{
         const windowStart = document.getElementById("star-panel") 
         const canvasWindow = document.getElementById ("main-canvas")
     
-        windowStart.classList.add(`hiden`)
-        canvasWindow.classList.remove(`hiden`)
-       console.log ( "hola")
+        windowStart.classList.add(`hidden`)
+        canvasWindow.classList.remove(`hidden`)
+
+
+    const gameOverButton = document.getElementById(`panel-game`)
+    console.log(game.gameOverSwitch)
+
+    
+
+
          
           })
+              
     
 
     const startGameButton = document.getElementById(`btn-start-game`)
@@ -40,6 +48,7 @@ window.addEventListener("load",()=>{
     const easyButton = document.getElementById(`btn-easy`)
     const hardButton = document.getElementById(`btn-hard`)
     const normalButton = document.getElementById(`btn-normal`)
+    
 
     easyButton.addEventListener("click", () => {
         game.mode.easy = true
@@ -64,6 +73,11 @@ window.addEventListener("load",()=>{
         hardButton.classList.add (`chose-one`)
 
     })
+
+
+/////////////////////button-continue//////////////////////
+
+
 
 
     /*easyButton.addEventListener("mouseover", () => {

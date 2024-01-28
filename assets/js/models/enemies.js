@@ -3,16 +3,16 @@ class Enemy1 {
         this.ctx = ctx;
         this.y   = y;
         this.x   = x;
-        this.vX  = 0.5;
+        this.vX  = 5;
         this.w   = 100;
         this.h  = 100; 
 
        this.sprite = new Image ();
        this.sprite.src = assets.src;
-       this.sprite.verticalFrames= 1;
-       this.sprite.verticalFramesIndex = 0;
-       this.sprite.horizontalFrames = 6;
-       this.sprite.horizontalFramesIndex = 5;
+       this.sprite.verticalFrames= assets.verticalFrames;
+       this.sprite.verticalFramesIndex = assets.verticalFramesIndex;
+       this.sprite.horizontalFrames = assets.horizontalFrames;
+       this.sprite.horizontalFramesIndex = assets.horizontalFramesIndex;
 
        this.sprite.onload = () => {
         this.sprite.isReady = true;
@@ -35,7 +35,10 @@ class Enemy1 {
     clear () {
         this.ctx.clearRect(this.x , this.y , this.w, this.h)
 
+
+
     }
+    
     
     
     collision(element){

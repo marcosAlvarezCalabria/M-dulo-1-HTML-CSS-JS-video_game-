@@ -57,7 +57,7 @@ class Cloud {
 
       if (gokuPositionX  > this.x) {
         this.x = gokuPositionX ;
-        this.llegoagoku = true;
+        
       }
       if (gokuIsflying) {
         this.y = gokuPositionY +50;

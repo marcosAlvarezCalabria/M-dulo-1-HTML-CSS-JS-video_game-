@@ -52,31 +52,27 @@ class Goku {
     };
     this.isRidingCloud ={
       isFliying :false,
-      up : false,
-      down : false,
-      left : false,
-      right : false,
-      leave : false,
+     
 
     }
   }
   onKeyEvent(event, enemies) {
     const enabled = event.type === "keydown";
-   // console.log(`${event.keyCode}`)
+   
 
     switch (event.keyCode) {
 
       case KEY_RIGHT:
         this.movements.right = enabled;
-        this.isRidingCloud.right = true
-        //this.moveFliying();
+     
+       
         
         break;
 
       case KEY_LEFT:
         this.movements.left = enabled;
-        this.isRidingCloud.left = true
-        //this.moveFliying();
+      
+        
         break;
 
       case KEY_JUMP:
@@ -89,24 +85,24 @@ class Goku {
         break;
         case KEY_DOWN:
           this.movements.down = enabled
-          this.isRidingCloud.down = true
           
-          //this.moveFliying();
+          
+          
+          
         
         break;
         case KEY_UP:
           this.movements.up = enabled
-          this.isRidingCloud.up = true
+        
          
-          //this.moveFliying()
-          
-
+         
         
         break;
 
 
       case KEY_PUNCH:
         if (enabled) {
+          console.log(enemies)
           this.movements.punch = true
           this.punch(enemies);
           this.animatePunch();
@@ -117,13 +113,15 @@ class Goku {
       case KEY_SPECIAL_HIT:
         if (enabled) {
           this.specialHit()
+          
         }  
         break;
       case KEY_CALL_CLOUD :
         if (enabled && !this.isRidingCloud.isFliying) {
           this.callingCloud()
+         
         } else if ( enabled && this.isRidingCloud.isFliying) {
-          
+         
           this.getOffTheCloud()
         }
         break
@@ -136,7 +134,8 @@ class Goku {
   ///////////////PUNCH////////////////////////////
   punch(enemies) {
     const prevW = this.w;
-    this.w = 130;
+    this.w = 150;
+    
     enemies.forEach((enemy, index) => {
       if (enemy.collision(this)) {
         enemies.splice(index, 1);
@@ -149,11 +148,11 @@ class Goku {
     //this.ctx.fillRect(this.x + this.w +5, this.y - Math.ceil(this.h/2), 20,20 )
   }
   ///////////////////SPCECIALHIT/////////////////////////////////
-
+  
   specialHit() {
 
-    if(this.kiBar.quantityKi === 3){
-   this.ondasVital.push( new OndaVital (this.ctx , this.x + this.w ,this.y + Math.ceil(this.h/2)))
+    if(this.kiBar.quantityKi >= 0){
+   this.ondasVital.push( new OndaVital (this.ctx , this.x + this.w ,this.y ))//////////aqui
    
 
   }
@@ -164,15 +163,16 @@ callingCloud(){
   if (this.clouds.length < 1){
     this.clouds.push(new Cloud(this.ctx , CANVAS_W ,CANVAS_H- 300))  
     this.isRidingCloud.leave = false
+   
   }
   
 }
 
 toRideCloud(){
-  this.clouds.forEach((cloud)=>{
+  this.clouds.forEach((cloud) => {
     if (this.x > cloud.x && this.y < cloud.y){
       this.y0 = cloud.y + 130
-      console.log("encima de la nube")
+     
       this.isRidingCloud.isFliying = true 
     
     }
@@ -252,13 +252,13 @@ getOffTheCloud(){
         this.ondasVital= this.ondasVital.filter((onda)=> onda.y > 0)
         this.ondasVital= this.ondasVital.filter((onda)=> onda.x > 0)
 
-        this.clouds = this.clouds.filter((cloud) => cloud.x < this.ctx.canvas.width)
+        //this.clouds = this.clouds.filter((cloud) => cloud.x < this.ctx.canvas.width)
         this.clouds = this.clouds.filter((cloud) => cloud.y < this.ctx.canvas.width)
         this.clouds = this.clouds.filter((cloud) => cloud.y > 0);
         this.clouds = this.clouds.filter((cloud) => cloud.x > 0); 
 
      
-                    console.log ( this.clouds)
+                   
   }
   animate() {
     this.animationTick++;

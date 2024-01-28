@@ -17,7 +17,7 @@ class Game {
     this.score = new Score(this.ctx, this.canvas.width-50, this.canvas.height - this.canvas.height+50);
     this.kiBar = new KiBar(this.ctx, this.canvas.width - (this.canvas.width - 45 ), this.canvas.height - 80 );
     this.gameOverSing = new GameOverSing (this.ctx ,Math.ceil(this.canvas.width/2), Math.ceil(this.canvas.height/2))
-    //this.cloud = new Cloud(this.ctx , 300,300) 
+    this.gameOverSwitch= false
 
 
     this.goku = new Goku(
@@ -47,7 +47,7 @@ class Game {
       normal:false,
       hard : false
     }
-/////////////cloud//////////////////////////
+
      
      
   }
@@ -71,6 +71,7 @@ class Game {
         this.gameOver();
         this.draw();
         this.checkCollisions();
+        this.gameOverSwitch= false
         
         
       }, this.fps);
@@ -81,9 +82,17 @@ class Game {
     this.addEnemyTick++;
     if (this.addEnemyTick > value) {
       this.addEnemyTick = 5;
+      let randomenemy = Math.floor(Math.random () * 2);console.log(randomenemy)
+      if(randomenemy === 1 ) {
+        this.enemies.push(( new Enemy1(this.ctx, this.canvas.width, this.canvas.height -360,ENEMY_BIRD)));
 
-      //this.enemies.push((this.enemy1 = new Enemy1(this.ctx, this.canvas.width, this.canvas.height -160, "/assets/img/spgoku/Pig-Pirate-gun.png")));
-      this.enemies.push(( new Enemy1 (this.ctx, this.canvas.width, this.canvas.height -160,ENEMY_PIG)));
+      }else {
+        this.enemies.push(( new Enemy1 (this.ctx, this.canvas.width, this.canvas.height -160,ENEMY_PIG)));
+
+      }
+
+      
+      
     }
   }
   stop() {
@@ -91,15 +100,21 @@ class Game {
     this.drawIntervalId = undefined;
     this.enemies = []//para que no salgan los enemigos en la pantalla gameOver
   }
+ 
   gameOver() {
     if (this.singLives.quantity === 2 ) {
       this.healthBar.sprite.src = "/assets/img/spgoku/sprite-live-4.png"
       this.stop();
+      this.gameOverSwitch = true
+      
+
+    
       
     }
   }
   onKeyEvent(event) {
     this.goku.onKeyEvent(event, this.enemies);
+    
   }
 
   draw() {
@@ -129,9 +144,9 @@ class Game {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.enemies.forEach((enemy) => {
       //para borrar los enemigos si salen por la izquierda
-      if (enemy.x === 0) {
+      if (enemy.x > (enemy.x *2)) {
         this.enemies.shift();
-        
+                
       }
       this.goku.clear();
     });
@@ -170,8 +185,10 @@ class Game {
         for (let i = 0; i < this.enemies.length; i++) {
             const enemy = this.enemies[i];
             if ( enemy.collision (onda)){
-                this.enemies.splice(index,1)
+                this.enemies.splice(i,1)
                 this.score.points++
+
+                console.log(this.enemies)
                 
             }
             
