@@ -172,10 +172,10 @@ callingCloud(){
 toRideCloud(){
   this.clouds.forEach((cloud) => {
     if (this.x > cloud.x && this.y < cloud.y){
-      this.y0 = cloud.y + 130
+      
      
       this.isRidingCloud.isFliying = true 
-    
+    ;
     }
   })
 
@@ -203,7 +203,7 @@ getOffTheCloud(){
   move() {
    
     this.ondasVital.forEach((onda) => onda.move())
-    this.clouds.forEach((cloud) => cloud.move(this.x,this.y,this.vX,this.isRidingCloud.isFliying,this.isRidingCloud.leave))
+    this.clouds.forEach((cloud) => cloud.move(this.x -5,this.y,this.vX,this.isRidingCloud.isFliying,this.isRidingCloud.leave))
    
    
     
@@ -276,6 +276,7 @@ getOffTheCloud(){
       }
     }
     
+    
   }
   animatePunch(){
     if (this.movements.punch){
@@ -287,16 +288,28 @@ getOffTheCloud(){
       this.sprite.verticalFrameIndex = 0;
       this.sprite.horizontalFrames = 2;
       this.sprite.horizontalFrameIndex = 0;
-      this.sprite.horizontalFrameIndex++
-      //this.x += this.vX
-      
-      
-      
+      this.sprite.horizontalFrameIndex++   
 
     }
     this.movements.punch = false
     
   }
+  /*animateFly(){
+    if (this.isRidingCloud.isFliying){
+      this.sprite.src = "/assets/img/spgoku/cloud.png";
+    this.sprite.verticalFrames = 1;
+    this.sprite.verticalFrameIndex = 0;
+    this.sprite.horizontalFrames = 2
+    this.sprite.horizontalFrameIndex = 0;
+    this.sprite.onload = () => {
+      this.sprite.isReady = true;
+      this.sprite.frameWidth = Math.ceil(this.sprite.width / this.sprite.horizontalFrames);
+      this.sprite.frameHeight = Math.ceil(this.sprite.height / this.sprite.verticalFrames);
+    }
+
+      
+    }
+  }*/
  initialState(){
     this.sprite.src = "/assets/img/spgoku/goku-kid.png";
     this.sprite.verticalFrames = 1;
@@ -334,6 +347,7 @@ getOffTheCloud(){
         this.h
       )
       this.animate();
+      
     }
     this.ondasVital.forEach((onda)=>onda.draw())
     this.clouds.forEach((cloud)=>cloud.draw())

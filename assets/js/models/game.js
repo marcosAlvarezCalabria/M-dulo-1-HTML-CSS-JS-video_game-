@@ -21,7 +21,7 @@ class Game {
    
     this.gameOverSwitch= false
    
-    this.counterDragonBalls = new CounterDragonBall ( this.ctx, Math.ceil (this.canvas.width/1.5),this.canvas.height -50)
+   
 
 
     this.goku = new Goku(
@@ -54,15 +54,26 @@ class Game {
       hard : false
     }
     ///////////////BALLS/////////////////////////
-    this.removeBallTick = 0
+    this.showBallTick = 0
     this.counterBallsCaught = 0 
-     
+    
     this.dragonBall = new DragonBall (this.ctx, POSITION_X_BALL,POSITION_Y_BALL)
 
+    this.counterDragonBalls = new CounterDragonBall ( this.ctx, Math.ceil (this.canvas.width/1.5),this.canvas.height -50)
+    this.randomNum1= 0
+    this.randomNum2=0
 
+  
      
      
   }
+  numeroRandom(){
+    this.randomNum1 = Math.floor(Math.random() * 500);
+  }
+    
+
+
+  
   choseMode(){
     if ( this.mode.easy){
       this.valueEnemies = 200
@@ -73,14 +84,25 @@ class Game {
     }
   }
 
-  showBalls(){
-    this.removeBallTick++ 
-    if ( this.removeBallTick > 400) {
-      this.dragonBall.x = 60
-      this.dragonBall.y = 50
+  showBalls() {
+    this.showBallTick++;
+
+    if (this.showBallTick > 100) {
+        if (!this.randomInterval) {
+            // Establecer intervalo para cambiar aleatoriamente cada 20 segundos
+            this.randomInterval = setInterval(() => {
+                this.dragonBall.x = Math.ceil(Math.random() * 1000);
+                this.dragonBall.y = Math.ceil(Math.random() * 1000);
+                console.log(this.dragonBall.x, this.dragonBall.y);
+            }, 10000);
+        }
+    } else {
+        // Reiniciar el intervalo cuando no se cumple la condición
+        clearInterval(this.randomInterval);
+        this.randomInterval = null;
     }
-  }
-  
+}
+
 
   start() {
     if (!this.drawIntervalId) {
@@ -108,6 +130,7 @@ class Game {
       let randomenemy = Math.floor(Math.random () * 2);console.log(randomenemy)
       if(randomenemy === 1 ) {
         this.enemies.push(( new Enemy1(this.ctx, this.canvas.width, this.canvas.height -360,ENEMY_BIRD)));
+        console.log(this.randomNum1)
 
       }else {
         this.enemies.push(( new Enemy1 (this.ctx, this.canvas.width, this.canvas.height -160,ENEMY_PIG)));
@@ -227,7 +250,7 @@ class Game {
        })
     });
     if (this.dragonBall.collision(this.goku)){
-      this.removeBallTick = 0
+      this.showBallTick = 0
 
       this.counterBallsCaught ++ 
       this.dragonBall.x = POSITION_X_BALL
