@@ -36,14 +36,12 @@ const HEIGHT_HEALTH_BAR = 50
 
 const WIDTH_KI_BAR = 200;
 const HEIGHT_KI_BAR = 100;
+//////////////////////////////balls/////////////////////////////
+
+const POSITION_Y_BALL = 6000
+const POSITION_X_BALL = 2000
 
 //////////////////////////////////panels/////////////////////
-
-
-
-
-
-
 const ENEMY_PIG = {
 
     src: "/assets/img/spgoku/Pig-Pirate-gun.png",

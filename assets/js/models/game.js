@@ -9,6 +9,7 @@ class Game {
 
     this.drawIntervalId = undefined;
     this.moveEnemiesIntervalId = undefined;
+    
 
 ////////////////////////new/////////////////////////////////////
     this.background = new Background(this.ctx)
@@ -17,8 +18,10 @@ class Game {
     this.score = new Score(this.ctx, this.canvas.width-50, this.canvas.height - this.canvas.height+50);
     this.kiBar = new KiBar(this.ctx, this.canvas.width - (this.canvas.width - 45 ), this.canvas.height - 80 );
     this.gameOverSing = new GameOverSing (this.ctx ,Math.ceil(this.canvas.width/2), Math.ceil(this.canvas.height/2))
-    this.dragonBall = new DragonBall (this.ctx, 60,50)
+   
     this.gameOverSwitch= false
+   
+    this.counterDragonBalls = new CounterDragonBall ( this.ctx, Math.ceil (this.canvas.width/1.5),this.canvas.height -50)
 
 
     this.goku = new Goku(
@@ -29,6 +32,8 @@ class Game {
       this.score,
       this.healthBar,
       this.singLives,
+      this.dragonBall
+     
       
       
     );
@@ -48,6 +53,12 @@ class Game {
       normal:false,
       hard : false
     }
+    ///////////////BALLS/////////////////////////
+    this.removeBallTick = 0
+    this.counterBallsCaught = 0 
+     
+    this.dragonBall = new DragonBall (this.ctx, POSITION_X_BALL,POSITION_Y_BALL)
+
 
      
      
@@ -59,6 +70,14 @@ class Game {
       this.valueEnemies = 150
     }else if ( this.mode.hard){
       this.valueEnemies = 100
+    }
+  }
+
+  showBalls(){
+    this.removeBallTick++ 
+    if ( this.removeBallTick > 400) {
+      this.dragonBall.x = 60
+      this.dragonBall.y = 50
     }
   }
   
@@ -73,6 +92,9 @@ class Game {
         this.draw();
         this.checkCollisions();
         this.gameOverSwitch= false
+        this.showBalls();
+
+       
         
         
       }, this.fps);
@@ -126,7 +148,10 @@ class Game {
     this.kiBar.draw();
     this.score.draw();
     this.singLives.draw();
-    this.dragonBall.draw();
+    this.dragonBall.draw()
+   
+    this.counterDragonBalls.draw()
+   
     
 
     if (this.singLives.quantity === 2){
@@ -152,6 +177,8 @@ class Game {
       }
       this.goku.clear();
     });
+  
+   
   }
   updateLives(){
     if (this.healthBar.quantityLive === 2) {
@@ -179,6 +206,7 @@ class Game {
         
 
         this.upDateHealthBar();
+        
        
         
       }
@@ -198,6 +226,19 @@ class Game {
 
        })
     });
+    if (this.dragonBall.collision(this.goku)){
+      this.removeBallTick = 0
+
+      this.counterBallsCaught ++ 
+      this.dragonBall.x = POSITION_X_BALL
+
+      this.dragonBall.y = POSITION_Y_BALL
+
+      this.counterDragonBalls.updateCounter(this.counterBallsCaught)
+
+console.log(`este es el contador de bolas ${this.counterBallsCaught} `)
+
+    }
     
   }
  

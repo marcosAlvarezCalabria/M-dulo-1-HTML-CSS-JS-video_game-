@@ -1,5 +1,5 @@
 class Goku {
-  constructor(ctx, x, y, kiBar, score, healthBar, singLives,cloud) {
+  constructor(ctx, x, y, kiBar, score, healthBar, singLives,dragonBall) {
     this.ctx = ctx;
     this.y = y;
     this.vY = SPEED_JUMP;
@@ -22,6 +22,7 @@ class Goku {
     this.ondasVital = []
     this.clouds = []
     this.initialSprite = {}
+    this.dragonBall = dragonBall
 
 
     this.sprite = new Image();
@@ -242,6 +243,9 @@ getOffTheCloud(){
     }
    
   }
+  ///////////////////////////caugh Balls/////////////////////////////
+
+  
 
   clear() {
     this.ctx.clearRect(this.x, this.y, this.w, this.h);
