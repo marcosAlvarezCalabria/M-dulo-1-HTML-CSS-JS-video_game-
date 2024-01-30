@@ -19,6 +19,10 @@ class KiBar{
           this.sprite.frameHeight = Math.ceil(this.sprite.height / this.sprite.verticalFrames);
         }
         this.quantityKi= 0
+        /////////////////////sound////////////////////
+        this.soundKi = new Audio()
+        this.soundKi.src = "/assets/sounds/DBAA sounds and voices/ki.wav"
+        
 
     }
     animate (){
@@ -30,6 +34,7 @@ class KiBar{
 
         }else if (this.quantityKi === 2) {
             this.sprite.verticalFramesIndex = 2
+            
 
         }
     }
@@ -49,12 +54,19 @@ class KiBar{
            this.animate(); 
            
            
+           
             
         }
     }
     updateQuantityki(){
         this.quantityKi ++
         console.log(`LA CANTIDAD DE KI +1 ES ${this.quantityKi}`)
+        if ( this.quantityKi === 3){
+            this.soundKi.play();
+        }
+        
     }
     
+    
+
 }

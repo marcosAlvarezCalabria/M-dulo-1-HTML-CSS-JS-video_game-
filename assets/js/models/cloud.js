@@ -29,6 +29,9 @@ class Cloud {
     };
 
     this.llegoagoku = false;
+    /////////////////////sound/////////////////////////////////
+    this.soudCloudIsComing = new Audio ()
+    this.soudCloudIsComing = "/assets/sounds/DBAA sounds and voices/clound-is-coming.wav"
   }
   draw() {
     if (this.sprite.isReady) {
@@ -54,6 +57,7 @@ class Cloud {
   ) {
     if (!gokuGetOff) {
       this.x -= speedGoguX;
+      
 
       if (gokuPositionX  > this.x) {
         this.x = gokuPositionX ;

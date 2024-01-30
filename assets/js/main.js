@@ -9,15 +9,22 @@ window.addEventListener("load",()=>{
 
     const playButton = document.getElementById(`btn-play`)
 
+    
     playButton.addEventListener("click",() => {
+        const choose = document.getElementById (`choose`)
+        choose.classList.remove(`hidden`)
+        if ( modeActive){
         game.start()
         const windowStart = document.getElementById("star-panel") 
         const canvasWindow = document.getElementById ("main-canvas")
-    
+        
+
+
+                  
         windowStart.classList.add(`hidden`)
         canvasWindow.classList.remove(`hidden`)
 
-
+}
     const gameOverButton = document.getElementById(`panel-game`)
     console.log(game.gameOverSwitch)
 
@@ -44,13 +51,14 @@ window.addEventListener("load",()=>{
    // buttoncontinue.addEventListener ("click",)
 
 ///////////////////butons menu/////////////////////////////
-    
+    let modeActive = false
     const easyButton = document.getElementById(`btn-easy`)
     const hardButton = document.getElementById(`btn-hard`)
     const normalButton = document.getElementById(`btn-normal`)
     
 
     easyButton.addEventListener("click", () => {
+        modeActive =true
         game.mode.easy = true
         game.choseMode();
         hardButton.classList.remove(`chose-one`)
@@ -58,6 +66,7 @@ window.addEventListener("load",()=>{
         easyButton.classList.add (`chose-one`)
     })
     normalButton.addEventListener("click" , () => {
+        modeActive= true
         game.mode.normal = true
         game.choseMode();
         easyButton.classList.remove (`chose-one`)
@@ -66,6 +75,7 @@ window.addEventListener("load",()=>{
     })
 
     hardButton.addEventListener("click" , () => {
+        modeActive = true
         game.mode.hard = true
         game.choseMode()
         easyButton.classList.remove ( `chose-one`)

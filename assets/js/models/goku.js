@@ -55,7 +55,25 @@ class Goku {
       isFliying :false,
      
 
+
     }
+    ///////////////////////audio////////////////////////////////
+    this.sondPunch = new Audio()
+    this.sondPunch.src = "/assets/sounds/DBAA sounds and voices/punch.wav"
+    this.soundJump = new Audio()
+    this.soundJump.src =  "/assets/sounds/DBAA sounds and voices/jump.wav"
+    this.soundOnda = new Audio()
+    this.soundOnda.src =  "/assets/sounds/DBAA sounds and voices/onda3.wav"
+    this.soundCall = new Audio ()
+    this.soundCall.src = "/assets/sounds/DBAA sounds and voices/callCloud.wav"
+    this.soundFlying = new Audio()
+    this.soundFlying.src = "/assets/sounds/DBAA sounds and voices/flying.wav"
+    this.soundDieEnemy = new Audio()
+    this.soundDieEnemy.src = "/assets/sounds/DBAA sounds and voices/gokuDied.wav"
+   
+    
+    
+   
   }
   onKeyEvent(event, enemies) {
     const enabled = event.type === "keydown";
@@ -78,6 +96,7 @@ class Goku {
 
       case KEY_JUMP:
         if (enabled) {
+          this.soundJump.play()
           this.jump();
         } else {
           this.vY = SPEED_JUMP;
@@ -103,10 +122,12 @@ class Goku {
 
       case KEY_PUNCH:
         if (enabled) {
+          this.sondPunch.play();
           console.log(enemies)
           this.movements.punch = true
           this.punch(enemies);
           this.animatePunch();
+          
         } else {
           this.initialState()
        }
@@ -115,11 +136,13 @@ class Goku {
         if (enabled) {
           this.specialHit()
           
+          
         }  
         break;
       case KEY_CALL_CLOUD :
         if (enabled && !this.isRidingCloud.isFliying) {
           this.callingCloud()
+          this.soundCall.play();
          
         } else if ( enabled && this.isRidingCloud.isFliying) {
          
@@ -135,13 +158,15 @@ class Goku {
   ///////////////PUNCH////////////////////////////
   punch(enemies) {
     const prevW = this.w;
-    this.w = 150;
+    this.w = 170;
     
     enemies.forEach((enemy, index) => {
       if (enemy.collision(this)) {
         enemies.splice(index, 1);
         this.kiBar.updateQuantityki();
         this.score.points ++
+        this.soundDieEnemy.play();
+        
       }
     });
     
@@ -152,12 +177,20 @@ class Goku {
   
   specialHit() {
 
-    if(this.kiBar.quantityKi >= 0){
+
+    if(this.kiBar.quantityKi >= 3){
    this.ondasVital.push( new OndaVital (this.ctx , this.x + this.w ,this.y ))//////////aqui
-   
+   this.soundOnda.play();
 
   }
   this.kiBar.quantityKi = 0
+}
+soundKi(){
+  if (this.kiBar.quantityKi === 3){
+    console.log (this.kiBar.quantityKi)
+this.soundKi.play()
+  }
+  
 }
 ///////////////////////////////CLOUD/////////////////////////////////////
 callingCloud(){
@@ -172,9 +205,11 @@ callingCloud(){
 toRideCloud(){
   this.clouds.forEach((cloud) => {
     if (this.x > cloud.x && this.y < cloud.y){
-      
+      this.soundFlying.play()
      
       this.isRidingCloud.isFliying = true 
+      this.soundFlying.play();
+      this.sound
     ;
     }
   })

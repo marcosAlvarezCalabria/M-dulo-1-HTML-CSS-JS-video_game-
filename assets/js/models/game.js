@@ -9,7 +9,7 @@ class Game {
 
     this.drawIntervalId = undefined;
     this.moveEnemiesIntervalId = undefined;
-    
+    this.counterBallsCaught = 0
 
 ////////////////////////new/////////////////////////////////////
     this.background = new Background(this.ctx)
@@ -17,7 +17,8 @@ class Game {
     this.singLives = new SingLives(this.ctx, Math.ceil (this.healthBar.w /5+5),this.healthBar.h);
     this.score = new Score(this.ctx, this.canvas.width-50, this.canvas.height - this.canvas.height+50);
     this.kiBar = new KiBar(this.ctx, this.canvas.width - (this.canvas.width - 45 ), this.canvas.height - 80 );
-    this.gameOverSing = new GameOverSing (this.ctx ,Math.ceil(this.canvas.width/2), Math.ceil(this.canvas.height/2))
+    this.gameOverSing = new GameOverSing (this.ctx ,450, Math.ceil(this.canvas.height/2))
+    this.youWin = new SingYouWin (this.ctx ,Math.ceil(this.canvas.width/10), Math.ceil(this.canvas.height/10), )
    
     this.gameOverSwitch= false
    
@@ -55,21 +56,28 @@ class Game {
     }
     ///////////////BALLS/////////////////////////
     this.showBallTick = 0
-    this.counterBallsCaught = 0 
+    this.randomInterval = undefined
+    
     
     this.dragonBall = new DragonBall (this.ctx, POSITION_X_BALL,POSITION_Y_BALL)
 
     this.counterDragonBalls = new CounterDragonBall ( this.ctx, Math.ceil (this.canvas.width/1.5),this.canvas.height -50)
-    this.randomNum1= 0
-    this.randomNum2=0
+   ///////////////////////////////////////////////sounds///////////////////////////////////////////
+  
+    this.soundDieEnemy = new Audio()
+    this.soundDieEnemy.src = "/assets/sounds/DBAA sounds and voices/diedEnemy.wav"
+    this.soundShowBall = new Audio ();
+    this.soundShowBall.src = "/assets/sounds/DBAA sounds and voices/ball.wav"
+    this.soundCaughtBall = new Audio ();
+    this.soundCaughtBall.src = "/assets/sounds/DBAA sounds and voices/caughtBall.wav"
+    this.soundDiedGoku = new Audio()
+    this.soundDiedGoku.src = "/assets/sounds/DBAA sounds and voices/gokuDied.wav"
 
   
      
      
   }
-  numeroRandom(){
-    this.randomNum1 = Math.floor(Math.random() * 500);
-  }
+  
     
 
 
@@ -83,20 +91,83 @@ class Game {
       this.valueEnemies = 100
     }
   }
+  incrementDificult(){
+    if (this.mode.easy)
+    switch (this.score.points) {
+      case 2:
+        this.valueEnemies = 175 
+        console.log(`valieEnemies = ${this.valueEnemies}`)
+        break;
+        case 4:
+          this.valueEnemies = 150
+          console.log(`valieEnemies = ${this.valueEnemies}`)
+          break;
+          case 6:
+            this.valueEnemies = 125
+            console.log(`valieEnemies = ${this.valueEnemies}`)
+            break;
+    
+      default:
+        break;
+    }
+    if (this.mode.normal)
+    switch (this.score.points) {
+      case 2:
+        this.valueEnemies = 125 
+        console.log(`valieEnemies = ${this.valueEnemies}`)
+        break;
+        case 4:
+          this.valueEnemies = 100
+          console.log(`valieEnemies = ${this.valueEnemies}`)
+          break;
+          case 6:
+            this.valueEnemies = 75
+            console.log(`valieEnemies = ${this.valueEnemies}`)
+            break;
+    
+      default:
+        break;
+    }
+    if (this.mode.hard)
+    switch (this.score.points) {
+      case 2:
+        this.valueEnemies = 90 
+        console.log(`valieEnemies = ${this.valueEnemies}`)
+        break;
+        case 4:
+          this.valueEnemies = 80
+          console.log(`valieEnemies = ${this.valueEnemies}`)
+          break;
+          case 6:
+            this.valueEnemies = 60
+            console.log(`valieEnemies = ${this.valueEnemies}`)
+            break;
+    
+      default:
+        break;
+    }
+      
 
+
+  }
   showBalls() {
     this.showBallTick++;
 
-    if (this.showBallTick > 100) {
-        if (!this.randomInterval) {
+    if (this.showBallTick > 100 ) {
+    
+        if (!this.randomInterval && !this.gameOverSwitch && this.counterBallsCaught<7) {
             // Establecer intervalo para cambiar aleatoriamente cada 20 segundos
             this.randomInterval = setInterval(() => {
-                this.dragonBall.x = Math.ceil(Math.random() * 1000);
-                this.dragonBall.y = Math.ceil(Math.random() * 1000);
-                console.log(this.dragonBall.x, this.dragonBall.y);
-            }, 10000);
+                this.dragonBall.x = Math.ceil(Math.random() * 1200);
+                this.dragonBall.y = Math.ceil(Math.random() * 600);
+
+                this.soundShowBall.play();
+                
+             console.log(`gameover ${this.gameOverSwitch}`)
+             
+            }, 3000);
         }
-    } else {
+    } else{
         // Reiniciar el intervalo cuando no se cumple la condición
         clearInterval(this.randomInterval);
         this.randomInterval = null;
@@ -113,8 +184,9 @@ class Game {
         this.gameOver();
         this.draw();
         this.checkCollisions();
-        this.gameOverSwitch= false
+        
         this.showBalls();
+        
 
        
         
@@ -123,13 +195,14 @@ class Game {
     }
   }
   addEnemy(value) {
+    this.incrementDificult()
    
     this.addEnemyTick++;
     if (this.addEnemyTick > value) {
       this.addEnemyTick = 5;
       let randomenemy = Math.floor(Math.random () * 2);console.log(randomenemy)
       if(randomenemy === 1 ) {
-        this.enemies.push(( new Enemy1(this.ctx, this.canvas.width, this.canvas.height -360,ENEMY_BIRD)));
+        this.enemies.push(( new Enemy1(this.ctx, this.canvas.width, Math.ceil(Math.random() * 500),ENEMY_BIRD)));
         console.log(this.randomNum1)
 
       }else {
@@ -145,19 +218,31 @@ class Game {
     clearInterval(this.drawIntervalId);
     this.drawIntervalId = undefined;
     this.enemies = []//para que no salgan los enemigos en la pantalla gameOver
+    //clearInterval(this.randomInterval);
+    
+
+     clearInterval ( this.randomInterval)
+     this.randomInterval = undefined
+     
   }
  
   gameOver() {
-    if (this.singLives.quantity === 2 ) {
+    if (this.singLives.quantity === 2) {
       this.healthBar.sprite.src = "/assets/img/spgoku/sprite-live-4.png"
       this.stop();
+     
       this.gameOverSwitch = true
-      
-
-    
-      
+      console.log(`GAMEOVER ES ${this.gameOverSwitch}`)
     }
+    
   }
+  youWon(){
+    if(this.counterBallsCaught === 7){
+      this.goku.x = 5000
+      
+     
+  }
+}
   onKeyEvent(event) {
     this.goku.onKeyEvent(event, this.enemies);
     
@@ -172,10 +257,13 @@ class Game {
     this.score.draw();
     this.singLives.draw();
     this.dragonBall.draw()
+    
    
     this.counterDragonBalls.draw()
    
-    
+    if (this.counterBallsCaught === 7){
+     this.youWin.draw()
+    }
 
     if (this.singLives.quantity === 2){
       this.gameOverSing.draw();
@@ -226,7 +314,7 @@ class Game {
         this.updateLives();
 
         this.healthBar.quantityLive --
-        
+        this.soundDiedGoku.play()
 
         this.upDateHealthBar();
         
@@ -240,8 +328,9 @@ class Game {
             if ( enemy.collision (onda)){
                 this.enemies.splice(i,1)
                 this.score.points++
+                this.soundDieEnemy.play();
 
-                console.log(this.enemies)
+                
                 
             }
             
@@ -251,18 +340,21 @@ class Game {
     });
     if (this.dragonBall.collision(this.goku)){
       this.showBallTick = 0
+      this.soundCaughtBall.play()
 
       this.counterBallsCaught ++ 
+      this.youWon();
       this.dragonBall.x = POSITION_X_BALL
 
       this.dragonBall.y = POSITION_Y_BALL
 
       this.counterDragonBalls.updateCounter(this.counterBallsCaught)
 
-console.log(`este es el contador de bolas ${this.counterBallsCaught} `)
+
+
 
     }
-    
+   
   }
  
  
