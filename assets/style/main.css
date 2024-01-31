@@ -1,5 +1,5 @@
 #choose{
-    font-size: 300;
+    font-size: 50px;
     color: aliceblue;
 }
 #menu{
@@ -60,6 +60,7 @@ button{
 
 
 
+}
 
 canvas {
     border: solid 1px black;

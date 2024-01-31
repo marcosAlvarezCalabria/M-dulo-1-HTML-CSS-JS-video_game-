@@ -5,7 +5,7 @@ class Cloud {
       (this.initialX = x),
       (this.vX = 2),
       (this.y = y),
-      (this.w = 50),
+      (this.w = 70),
       (this.h = 50);
 
     this.sprite = new Image();
@@ -30,8 +30,9 @@ class Cloud {
 
     this.llegoagoku = false;
     /////////////////////sound/////////////////////////////////
-    this.soudCloudIsComing = new Audio ()
-    this.soudCloudIsComing = "/assets/sounds/DBAA sounds and voices/clound-is-coming.wav"
+    this.soudCloudIsComing = new Audio();
+    this.soudCloudIsComing =
+      "/assets/sounds/DBAA sounds and voices/clound-is-coming.wav";
   }
   draw() {
     if (this.sprite.isReady) {
@@ -48,29 +49,21 @@ class Cloud {
       );
     }
   }
-  move(
-    gokuPositionX,
-    gokuPositionY,
-    speedGoguX,
-    gokuIsflying,
-    gokuGetOff
-  ) {
+  move(gokuPositionX, gokuPositionY, speedGoguX, gokuIsflying, gokuGetOff) {
     if (!gokuGetOff) {
       this.x -= speedGoguX;
-      
 
-      if (gokuPositionX  > this.x) {
-        this.x = gokuPositionX ;
-        
+      if (gokuPositionX > this.x) {
+        this.x = gokuPositionX;
       }
       if (gokuIsflying) {
-        this.y = gokuPositionY +50;
+        this.y = gokuPositionY + 50;
+        this.x = gokuPositionX + 30;
       }
-    }else {
-        this.x -= this.vX
+    } else {
+      this.x -= this.vX;
     }
   }
- 
 
   collision(element) {
     return (
